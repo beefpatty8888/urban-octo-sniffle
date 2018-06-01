@@ -1,1 +1,1 @@
-Repository name was suggested by github, probably a random set of words.
+Repository name was suggested by github, probably by a random set of words.
