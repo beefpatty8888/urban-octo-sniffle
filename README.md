@@ -10,6 +10,7 @@ Dependencies:
   pip3 install python-digitalocean
   ```
 
+Instructions:
 ```
 export DO_API_TOKEN="<your Digital Ocean token>"
 
