@@ -10,6 +10,7 @@ import os
 def main():
    
    #http://docs.python-guide.org/en/latest/writing/logging/
+   global logger 
    logger = logging.getLogger()
    streamHandler = logging.StreamHandler()
    formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
@@ -35,7 +36,7 @@ def main():
      logger.debug ("Creating droplet of size " + args.size)
       
    elif os.getenv ("DO_API_TOKEN") == None:
-     logger.debug ("System environment variable DO_API_TOKEN must be specified.")
+     logger.error ("System environment variable DO_API_TOKEN must be specified.")
 
 
 if __name__ == "__main__":
