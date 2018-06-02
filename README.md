@@ -7,6 +7,7 @@ Dependencies:
 * Python 3
 * the python-digitalocean library (https://github.com/koalalorenzo/python-digitalocean)
   ```
+  apt install python3-pip
   pip3 install python-digitalocean
   ```
 
