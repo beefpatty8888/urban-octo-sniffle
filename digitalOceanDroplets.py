@@ -16,11 +16,13 @@ class createDroplet:
 
 class listDroplets:
    def __init__(self, token):
-     logger.debug ("Listing droplets")
-     self.getList(token)
+     self.token = token
 
-   def getList(self,token):
-     manager = digitalocean.Manager(token=token)
+   def getList(self):
+
+     logger.debug ("Listing droplets")
+
+     manager = digitalocean.Manager(token=self.token)
      myDroplets = manager.get_all_droplets()
      logger.debug(myDroplets)
  
@@ -79,7 +81,8 @@ def main():
        logger.error ("See https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slugs-for-droplet-plan-changes/")
 
    if args.list == True:
-     listDroplets(os.getenv("DO_API_TOKEN"))
+     listDO = listDroplets(os.getenv("DO_API_TOKEN"))
+     listDO.getList()
 
 if __name__ == "__main__":
    main()
