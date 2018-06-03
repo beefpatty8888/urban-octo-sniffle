@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 import argparse
 
@@ -12,7 +12,17 @@ import sys
 class createDroplet:
    def __init__(self, dropletSize, token):
      logger.debug ("Creating droplet of size "+dropletSize)
+     self.token = token
 
+   def setDroplet(self, size):
+     droplet = digitalocean.Droplet(token=self.token,
+                               name='TestDroplet',
+                               region='nyc3', # New York 3
+                               image='ubuntu-18-04-x64',
+                               size_slug=size,
+                               private_networking=True, 
+                               backups=True)
+     droplet.create()
 
 class listDroplets:
    def __init__(self, token):
@@ -29,7 +39,10 @@ class listDroplets:
      # see https://developers.digitalocean.com/documentation/v2/#list-all-droplets
      # for all attributes in the response.
      for droplet in myDroplets:
-        logger.debug(str(droplet.id) + ";" + droplet.name + ";" + droplet.image["distribution"] + ";" + str(droplet.networks["v4"]))
+        logger.debug(str(droplet.id) + 
+                         ";" + droplet.name + 
+                         ";" + droplet.image["distribution"] + 
+                         ";" + str(droplet.networks["v4"]))
 
 def main():
    
@@ -74,7 +87,7 @@ def main():
 
    if args.create == True:
      if args.size != None:
-       createDroplet (args.size, os.getenv("DO_API_TOKEN"))
+       createDroplet (args.size, os.getenv("DO_API_TOKEN")).setDroplet(args.size)
 
      elif args.size == None:
        logger.error ("The slug for the size of the instance must be specified.")
