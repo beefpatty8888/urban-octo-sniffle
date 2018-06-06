@@ -14,7 +14,7 @@ class createDroplet:
      logger.debug ("Creating droplet of size "+dropletSize)
      self.token = token
 
-   def setDroplet(self, size):
+   def writeDroplet(self, size):
      droplet = digitalocean.Droplet(token=self.token,
                                name='TestDroplet',
                                region='nyc3', # New York 3
@@ -23,6 +23,17 @@ class createDroplet:
                                private_networking=True, 
                                backups=True)
      droplet.create()
+
+     actions = droplet.get_actions()
+     for action in actions:
+        action.load()
+        logger.debug("CREATION STATUS: " + action.status)
+        # at some point, may want to look into my own loop
+        # or recursion for additional logging, but the
+        # built-in "action.wait()" in the the digitalocean
+        # library should suffice.
+        action.wait()
+        logger.debug("CREATION STATUS: " + action.status)
 
 class listDroplets:
    def __init__(self, token):
@@ -87,7 +98,7 @@ def main():
 
    if args.create == True:
      if args.size != None:
-       createDroplet (args.size, os.getenv("DO_API_TOKEN")).setDroplet(args.size)
+       droplet = createDroplet (args.size, os.getenv("DO_API_TOKEN")).writeDroplet(args.size)
 
      elif args.size == None:
        logger.error ("The slug for the size of the instance must be specified.")
