@@ -9,51 +9,9 @@ import os
 
 import sys
 
-class createDroplet:
-   def __init__(self, dropletSize, token):
-     logger.debug ("Creating droplet of size "+dropletSize)
-     self.token = token
-
-   def writeDroplet(self, size):
-     droplet = digitalocean.Droplet(token=self.token,
-                               name='TestDroplet',
-                               region='nyc3', # New York 3
-                               image='ubuntu-18-04-x64',
-                               size_slug=size,
-                               private_networking=True, 
-                               backups=True)
-     droplet.create()
-
-     actions = droplet.get_actions()
-     for action in actions:
-        action.load()
-        logger.debug("CREATION STATUS: " + action.status)
-        # at some point, may want to look into my own loop
-        # or recursion for additional logging, but the
-        # built-in "action.wait()" in the the digitalocean
-        # library should suffice.
-        action.wait()
-        logger.debug("CREATION STATUS: " + action.status)
-
-class listDroplets:
-   def __init__(self, token):
-     self.token = token
-
-   def getList(self):
-
-     logger.debug ("Listing droplets")
-
-     manager = digitalocean.Manager(token=self.token)
-     myDroplets = manager.get_all_droplets()
-     logger.debug(myDroplets)
- 
-     # see https://developers.digitalocean.com/documentation/v2/#list-all-droplets
-     # for all attributes in the response.
-     for droplet in myDroplets:
-        logger.debug(str(droplet.id) + 
-                         ";" + droplet.name + 
-                         ";" + droplet.image["distribution"] + 
-                         ";" + str(droplet.networks["v4"]))
+#custom modules
+import droplet.create
+import droplet.list
 
 def main():
    
@@ -98,14 +56,14 @@ def main():
 
    if args.create == True:
      if args.size != None:
-       droplet = createDroplet (args.size, os.getenv("DO_API_TOKEN")).writeDroplet(args.size)
+       droplet.create.createDroplet (args.size, os.getenv("DO_API_TOKEN")).writeDroplet(args.size)
 
      elif args.size == None:
        logger.error ("The slug for the size of the instance must be specified.")
        logger.error ("See https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slugs-for-droplet-plan-changes/")
 
    if args.list == True:
-     listDO = listDroplets(os.getenv("DO_API_TOKEN"))
+     listDO = droplet.list.listDroplets(os.getenv("DO_API_TOKEN"))
      listDO.getList()
 
 if __name__ == "__main__":
