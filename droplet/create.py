@@ -9,9 +9,9 @@ class createDroplet:
      self.logger.debug ("Creating droplet of size "+dropletSize)
      self.token = token
 
-   def writeDroplet(self, size):
+   def writeDroplet(self, size, name):
      droplet = digitalocean.Droplet(token=self.token,
-                               name='TestDroplet',
+                               name=name,
                                region='nyc3', # New York 3
                                image='ubuntu-18-04-x64',
                                size_slug=size,

@@ -33,6 +33,7 @@ def main():
    parser = argparse.ArgumentParser()
    parser.add_argument ("--create", help="Create a Digital Ocean droplet", action="store_true")
    parser.add_argument("--size", type=str, help="Digital Ocean droplet size")
+   parser.add_argument("--name", type=str, help="Digital Ocean droplet name")
    parser.add_argument ("--list", help="List Digital Ocean droplets", action="store_true")
    args = parser.parse_args()
 
@@ -55,12 +56,17 @@ def main():
      sys.exit()
 
    if args.create == True:
-     if args.size != None:
-       droplet.create.createDroplet (args.size, os.getenv("DO_API_TOKEN")).writeDroplet(args.size)
+     if args.size != None and args.name != None:
+       # create block storage before creating droplet ?
+       # https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-block-storage
+       droplet.create.createDroplet (args.size, os.getenv("DO_API_TOKEN")).writeDroplet(args.size, args.name)
 
      elif args.size == None:
        logger.error ("The slug for the size of the instance must be specified.")
        logger.error ("See https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slugs-for-droplet-plan-changes/")
+    
+     elif args.name == None:
+       logger.error ("Please specify the name for the Digital Ocean droplet.")
 
    if args.list == True:
      listDO = droplet.list.listDroplets(os.getenv("DO_API_TOKEN"))
