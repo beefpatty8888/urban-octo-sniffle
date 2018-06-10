@@ -23,6 +23,6 @@ https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slug
 ```
 export DO_API_TOKEN="<your Digital Ocean token>"
 
-./digitalOceanDroplets.py --create --size s-1vcpu-1gb
+./digitalOceanDroplets.py --create --name "Test" --size s-1vcpu-1gb
 ```
 
