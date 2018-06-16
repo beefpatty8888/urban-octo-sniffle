@@ -59,7 +59,7 @@ def main():
      if args.size != None and args.name != None:
        # create block storage before creating droplet ?
        # https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-block-storage
-       droplet.create.createDroplet (args.size, os.getenv("DO_API_TOKEN")).writeDroplet(args.size, args.name)
+       droplet.create.createDroplet (os.getenv("DO_API_TOKEN")).writeDroplet(args.size, args.name)
 
      elif args.size == None:
        logger.error ("The slug for the size of the instance must be specified.")

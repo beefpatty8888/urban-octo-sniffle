@@ -2,20 +2,26 @@ import digitalocean
 import logging
 
 class createDroplet:
-   def __init__(self, dropletSize, token):
+   def __init__(self, token):
      
      # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/
      self.logger = logging.getLogger(__name__)
-     self.logger.debug ("Creating droplet of size "+dropletSize)
      self.token = token
 
    def writeDroplet(self, size, name):
+
+     self.logger.debug ("Creating droplet of size "+size)
+
+     manager = digitalocean.Manager(token=self.token)
+     keys = manager.get_all_sshkeys()
+
      droplet = digitalocean.Droplet(token=self.token,
                                name=name,
                                region='nyc3', # New York 3
                                image='ubuntu-18-04-x64',
                                size_slug=size,
-                               private_networking=True, 
+                               private_networking=True,
+                               ssh_keys=keys,
                                backups=True)
      droplet.create()
 
