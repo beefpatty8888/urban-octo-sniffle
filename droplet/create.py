@@ -7,6 +7,7 @@ class createDroplet:
      # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/
      self.logger = logging.getLogger(__name__)
      self.token = token
+     self.dropletID = None
 
    def writeDroplet(self, size, name):
 
@@ -35,4 +36,11 @@ class createDroplet:
         # library should suffice.
         action.wait()
         self.logger.debug("CREATION STATUS: " + action.status)
+
+     self.dropletID = droplet.id
+
+     self.logger.debug("Droplet ID: "+str(self.dropletID))
+
+
+
 

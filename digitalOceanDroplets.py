@@ -12,6 +12,7 @@ import sys
 #custom modules
 import droplet.create
 import droplet.list
+import volume.create
 
 def main():
    
@@ -34,6 +35,7 @@ def main():
    parser.add_argument ("--create", help="Create a Digital Ocean droplet", action="store_true")
    parser.add_argument("--size", type=str, help="Digital Ocean droplet size")
    parser.add_argument("--name", type=str, help="Digital Ocean droplet name")
+   parser.add_argument("--volume", type=str, help="Digital Ocean block storage volume size in gigabytes")
    parser.add_argument ("--list", help="List Digital Ocean droplets", action="store_true")
    args = parser.parse_args()
 
@@ -55,18 +57,33 @@ def main():
      logger.error ("Please specify only the --create or --list flag but not both.")
      sys.exit()
 
-   if args.create == True:
-     if args.size != None and args.name != None:
-       # create block storage before creating droplet ?
-       # https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-block-storage
-       droplet.create.createDroplet (os.getenv("DO_API_TOKEN")).writeDroplet(args.size, args.name)
+   if args.create == True: 
+
+     
+     # The logic here for arguments parsing seems to be getting too unwieldy ...
+     if args.volume != None and args.size == None and args.name == None:
+        # creation of the block storage volume, but does not attach
+        volume.create.createVolume (os.getenv("DO_API_TOKEN")).writeVolume(args.volume, args.name)
+
+     elif args.size != None and args.name != None and args.volume != None:
+
+        # creation of the block storage volume, but does not attach
+        volume.create.createVolume (os.getenv("DO_API_TOKEN")).writeVolume(args.volume, args.name)
+
+
+        # create block storage before creating droplet ?
+        # https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-block-storage
+        dropletCreation = droplet.create.createDroplet (os.getenv("DO_API_TOKEN"))
+        dropletCreation.writeDroplet(args.size, args.name)
+
+        # TO-DO: code to attach the block storage volume to the new droplet.
 
      elif args.size == None:
-       logger.error ("The slug for the size of the instance must be specified.")
-       logger.error ("See https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slugs-for-droplet-plan-changes/")
+        logger.error ("The slug for the size of the instance must be specified.")
+        logger.error ("See https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slugs-for-droplet-plan-changes/")
     
      elif args.name == None:
-       logger.error ("Please specify the name for the Digital Ocean droplet.")
+        logger.error ("Please specify the name for the Digital Ocean droplet.")
 
    if args.list == True:
      listDO = droplet.list.listDroplets(os.getenv("DO_API_TOKEN"))
