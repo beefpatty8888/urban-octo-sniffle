@@ -68,7 +68,8 @@ def main():
      elif args.size != None and args.name != None and args.volume != None:
 
         # creation of the block storage volume, but does not attach
-        volume.create.createVolume (os.getenv("DO_API_TOKEN")).writeVolume(args.volume, args.name)
+        VolumeCreation = volume.create.createVolume (os.getenv("DO_API_TOKEN"))
+        VolumeCreation.writeVolume(args.volume, args.name)
 
 
         # create block storage before creating droplet ?
@@ -76,7 +77,8 @@ def main():
         dropletCreation = droplet.create.createDroplet (os.getenv("DO_API_TOKEN"))
         dropletCreation.writeDroplet(args.size, args.name)
 
-        # TO-DO: code to attach the block storage volume to the new droplet.
+        # attach the block storage volume to the new droplet.
+        VolumeCreation.attachVolume (dropletCreation.dropletID, 'nyc3')
 
      elif args.size == None:
         logger.error ("The slug for the size of the instance must be specified.")
