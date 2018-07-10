@@ -66,19 +66,23 @@ def main():
      VolumeCreation.writeVolume(args.volume_size)
 
    if args.subparser_name == "create":
+     if args.volume:
+       # creation of the block storage volume, but does not attach
+       VolumeCreation = volume.create.createVolume (os.getenv("DO_API_TOKEN"))
+       VolumeCreation.writeVolume(args.volume, args.name)
 
-     # creation of the block storage volume, but does not attach
-     VolumeCreation = volume.create.createVolume (os.getenv("DO_API_TOKEN"))
-     VolumeCreation.writeVolume(args.volume, args.name)
 
+       # create block storage before creating droplet ?
+       # https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-block-storage
+       dropletCreation = droplet.create.createDroplet (os.getenv("DO_API_TOKEN"))
+       dropletCreation.writeDroplet(args.droplet_size, args.name)
 
-     # create block storage before creating droplet ?
-     # https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-block-storage
-     dropletCreation = droplet.create.createDroplet (os.getenv("DO_API_TOKEN"))
-     dropletCreation.writeDroplet(args.droplet_size, args.name)
-
-     # attach the block storage volume to the new droplet.
-     VolumeCreation.attachVolume (dropletCreation.dropletID, 'nyc3')
+       # attach the block storage volume to the new droplet.
+       VolumeCreation.attachVolume (dropletCreation.dropletID, 'nyc3')
+     
+     else:  
+       dropletCreation = droplet.create.createDroplet (os.getenv("DO_API_TOKEN"))
+       dropletCreation.writeDroplet(args.droplet_size, args.name)
 
    if args.subparser_name == "list":
      print ("listing droplets")
