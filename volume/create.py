@@ -8,16 +8,16 @@ class createVolume:
      self.token = token
      self.volume = None
 
-   def writeVolume(self, volumeSize, volumeDescription):
+   def writeVolume(self, volumeSize, volumeDescription = None):
  
      self.volumeSize = volumeSize
 
      if volumeDescription == None:
-        self.volumeDescription = "No droplet specified"
+        self.volumeDescription = "No description specified"
      else:
-        self.volumeDescription = "For droplet "+str(volumeDescription)
+        self.volumeDescription = str(volumeDescription)
 
-     self.logger.debug("Creating volume of size "+self.volumeSize)
+     self.logger.debug("Creating volume of size "+str(self.volumeSize))
      self.logger.debug("Creating volume of description "+self.volumeDescription)
 
      self.volume = digitalocean.Volume(token=self.token,
