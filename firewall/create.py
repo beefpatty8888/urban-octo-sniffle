@@ -10,13 +10,13 @@ class createFirewall:
      self.digitalOceanFirewall = None
 
    def createInboundRules(self):
-     tcpHTTPPortRule = digitalocean.InboundRule(protocol="tcp", ports="80",
-                                                sources=digitalocean.Sources(
-                                                addresses=["0.0.0.0/0","::/0"]))
+     #tcpHTTPPortRule = digitalocean.InboundRule(protocol="tcp", ports="80",
+     #                                           sources=digitalocean.Sources(
+     #                                           addresses=["0.0.0.0/0","::/0"]))
      
-     tcpHTTPSPortRule = digitalocean.InboundRule(protocol="tcp", ports="443",
-                                                sources=digitalocean.Sources(
-                                                addresses=["0.0.0.0/0","::/0"]))
+     #tcpHTTPSPortRule = digitalocean.InboundRule(protocol="tcp", ports="443",
+     #                                           sources=digitalocean.Sources(
+     #                                           addresses=["0.0.0.0/0","::/0"]))
 
      tcpSSHPortRule = digitalocean.InboundRule(protocol="tcp", ports="22",
                                                 sources=digitalocean.Sources(
@@ -26,7 +26,8 @@ class createFirewall:
                                              sources=digitalocean.Sources(
                                              addresses=["0.0.0.0/0","::/0"]))
 
-     self.inboundRules = [tcpHTTPPortRule,tcpHTTPSPortRule,tcpSSHPortRule,icmpPortRule]
+     #self.inboundRules = [tcpHTTPPortRule,tcpHTTPSPortRule,tcpSSHPortRule,icmpPortRule]
+     self.inboundRules = [tcpSSHPortRule,icmpPortRule]
 
 
    def createOutboundRules(self):

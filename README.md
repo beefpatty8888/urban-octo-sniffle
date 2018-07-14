@@ -31,6 +31,10 @@ The "--volume" flag specifies the size of the block storage in gigabytes.
 ```
 ./digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb --volume 10
 ```
+### Creating a firewall with the Digital Ocean Droplet
+```
+./digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb --firewall
+```
 
 ## Creating the block storage volume only
 
@@ -45,3 +49,5 @@ Some limitations currently are:
 
  * The "nyc3" region is static
  * The image is set to Ubuntu 18.04 
+ * The firewall allows only SSH (Port 22) from anywhere. The code to allow ports 80 and 443 is there, but commented out. 
+ * No functionality to attach an existing firewall during the creation of a new droplet
