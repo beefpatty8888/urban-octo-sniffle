@@ -13,6 +13,7 @@ import sys
 import droplet.create
 import droplet.list
 import volume.create
+import firewall.create
 
 def main():
    
@@ -42,6 +43,7 @@ def main():
    createDropletArgsSubParser.add_argument("--droplet_size", type=str, help="Digital Ocean droplet size slug. See https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slugs-for-droplet-plan-changes/ ", required=True)
    createDropletArgsSubParser.add_argument("--name", type=str, help="Digital Ocean droplet name", required=True)
    createDropletArgsSubParser.add_argument("--volume", type=int, help="Create a block storage volume, in gigabytes, with the Digital Ocean droplet")
+   createDropletArgsSubParser.add_argument("--firewall", action="store_true")
    listDropetsArgs = subparsers.add_parser ("list", help="List Digital Ocean droplets")
    args = parser.parse_args()
 
@@ -75,6 +77,10 @@ def main():
      dropletCreation.writeDroplet(args.droplet_size, args.name)
 
      # future if statement here for firewall addition.
+     if args.firewall:
+       dropletFirewall = firewall.create.createFirewall(os.getenv("DO_API_TOKEN"))
+       dropletFirewall.writeFirewall(args.name)
+       dropletFirewall.attachFirewall(dropletCreation.dropletID)
 
      if args.volume:
        # attach the block storage volume to the new droplet.
