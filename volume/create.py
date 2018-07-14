@@ -14,15 +14,17 @@ class createVolume:
 
      if volumeDescription == None:
         self.volumeDescription = "No description specified"
+        volumeName = str(datetime.datetime.now())
      else:
         self.volumeDescription = str(volumeDescription)
+        volumeName = volumeDescription+"_volume"
 
      self.logger.debug("Creating volume of size "+str(self.volumeSize))
      self.logger.debug("Creating volume of description "+self.volumeDescription)
 
      self.volume = digitalocean.Volume(token=self.token,
                                   size_gigabytes = int(self.volumeSize),
-                                  name = str(datetime.datetime.now()),
+                                  name = volumeName,
                                   description = self.volumeDescription,
                                   region = 'nyc3' # static for now, though it should be a parameter.
                                   )
