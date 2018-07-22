@@ -13,7 +13,7 @@ Repository name was suggested by github, probably by a random set of words.
 ```
 export DO_API_TOKEN="<your Digital Ocean token>"
 
-./digitalOceanDroplets.py list
+./python/digitalOceanDroplets.py list
 ```
 ## Creating Digital Ocean Droplets
 
@@ -23,24 +23,24 @@ https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slug
 ```
 export DO_API_TOKEN="<your Digital Ocean token>"
 
-./digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb
+./python/digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb
 ```
 ### Creating a block storage volume with the Digital Ocean Droplet
 
 The "--volume" flag specifies the size of the block storage in gigabytes.
 ```
-./digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb --volume 10
+./python/digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb --volume 10
 ```
 ### Creating a firewall with the Digital Ocean Droplet
 ```
-./digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb --firewall
+./python/digitalOceanDroplets.py create --name "Test" --droplet_size s-1vcpu-1gb --firewall
 ```
 
 ## Creating the block storage volume only
 
 The "--volume" flag specifies the size of the block storage in gigabytes.
 ```
-./digitalOceanDroplets.py volume --volume_size 10
+./python/digitalOceanDroplets.py volume --volume_size 10
 ```
 
 ## Limitations
