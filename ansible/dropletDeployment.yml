@@ -1,0 +1,5 @@
+---
+- name: create DigitalOcean droplet
+  host: localhost
+  tasks:
+    - script: ../python/digitalOceanDroplets.py create --name "TestFromAnsible" --droplet_size s-1vcpu-1gb --firewall --volume 10
