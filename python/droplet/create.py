@@ -8,6 +8,7 @@ class createDroplet:
      self.logger = logging.getLogger(__name__)
      self.token = token
      self.dropletID = None
+     self.dropletIP = None
 
    def writeDroplet(self, size, name):
 
@@ -38,8 +39,11 @@ class createDroplet:
         self.logger.debug("CREATION STATUS: " + action.status)
 
      self.dropletID = droplet.id
+     self.dropletIP = droplet.load().ip_address
+ 
 
-     self.logger.debug("Droplet ID: "+str(self.dropletID))
+     self.logger.info("Droplet ID: "+str(self.dropletID))
+     self.logger.info("Droplet IP: "+str(self.dropletIP))
 
 
 
