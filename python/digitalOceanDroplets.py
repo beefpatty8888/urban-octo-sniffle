@@ -25,7 +25,7 @@ def main():
    streamHandler.setFormatter(formatter)
    logger.addHandler(streamHandler)
 
-   fileHandler = logging.FileHandler("../instance-creation.log")
+   fileHandler = logging.FileHandler("../../instance-creation.log")
    fileHandler.setFormatter(formatter)
    logger.addHandler(fileHandler)
    logger.setLevel(logging.DEBUG) 
