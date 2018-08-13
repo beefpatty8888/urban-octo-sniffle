@@ -8,7 +8,13 @@ Repository name was suggested by github, probably by a random set of words.
   apt install python3-pip
   pip3 install python-digitalocean
   ```
+# Ansible Playbook
+```
+export DO_API_TOKEN="<your Digital Ocean token>"
 
+ansible-playbook -vvvv -i localhost ansible/dropletDeployment.yml
+```
+# Standalone Python Script
 ## Listing Digital Ocean Droplets
 ```
 export DO_API_TOKEN="<your Digital Ocean token>"
