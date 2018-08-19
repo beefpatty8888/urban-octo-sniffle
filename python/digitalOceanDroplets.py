@@ -23,14 +23,16 @@ def main():
    streamHandler = logging.StreamHandler()
    formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
    streamHandler.setFormatter(formatter)
+   streamHandler.setLevel(logging.INFO)
    logger.addHandler(streamHandler)
 
    fileHandler = logging.FileHandler("../../instance-creation.log")
    fileHandler.setFormatter(formatter)
+   fileHandler.setLevel(logging.DEBUG)
    logger.addHandler(fileHandler)
    logger.setLevel(logging.DEBUG) 
 
-   logger.debug ("Starting script")
+   logger.info ("Starting script")
 
    parser = argparse.ArgumentParser()
 
@@ -76,7 +78,6 @@ def main():
      dropletCreation = droplet.create.createDroplet (os.getenv("DO_API_TOKEN"))
      dropletCreation.writeDroplet(args.droplet_size, args.name)
 
-     # future if statement here for firewall addition.
      if args.firewall:
        dropletFirewall = firewall.create.createFirewall(os.getenv("DO_API_TOKEN"))
        dropletFirewall.writeFirewall(args.name)

@@ -1,0 +1,31 @@
+---
+- name: update apt cache
+  raw: apt update
+
+- name: install python
+  raw: apt install python python3
+
+- name: find initial kernel
+  shell: uname -a
+  register: dropletKernel 
+
+- name: display kernel version
+  debug:
+    msg: "{{ dropletKernel }}"
+
+- name: apt full upgrade
+  apt:
+    update_cache: yes
+    upgrade: full
+  notify: restart droplet
+
+- name: wait for droplet to finish restart
+  wait_for: 
+     host: "{{ inventory_hostname }}"
+     state: started
+     port: 22
+     delay: 60
+     timeout: 3200
+  delegate_to: localhost
+
+

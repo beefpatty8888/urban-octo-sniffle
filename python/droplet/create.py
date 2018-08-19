@@ -30,13 +30,13 @@ class createDroplet:
      actions = droplet.get_actions()
      for action in actions:
         action.load()
-        self.logger.debug("CREATION STATUS: " + action.status)
+        self.logger.info("CREATION STATUS: " + action.status)
         # at some point, may want to look into my own loop
         # or recursion for additional logging, but the
         # built-in "action.wait()" in the the digitalocean
         # library should suffice.
         action.wait()
-        self.logger.debug("CREATION STATUS: " + action.status)
+        self.logger.info("CREATION STATUS: " + action.status)
 
      self.dropletID = droplet.id
      self.dropletIP = droplet.load().ip_address
