@@ -57,3 +57,4 @@ Some limitations currently are:
  * The image is set to Ubuntu 18.04 
  * The firewall allows only SSH (Port 22) from anywhere. The code to allow ports 80 and 443 is there, but commented out. 
  * No functionality to attach an existing firewall during the creation of a new droplet
+ * No error handling to work with the occassional HTTP 5XX errors from the Digital Ocean API.

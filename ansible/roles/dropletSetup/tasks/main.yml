@@ -3,7 +3,7 @@
   raw: apt update
 
 - name: install python
-  raw: apt install python python3
+  raw: apt install python python3 -y
 
 - name: find initial kernel
   shell: uname -a

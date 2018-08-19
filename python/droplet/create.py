@@ -35,7 +35,10 @@ class createDroplet:
         # or recursion for additional logging, but the
         # built-in "action.wait()" in the the digitalocean
         # library should suffice.
-        action.wait()
+
+        # increase the wait to 5 seconds to reduce excessive
+        # queries.
+        action.wait(5)
         self.logger.info("CREATION STATUS: " + action.status)
 
      self.dropletID = droplet.id
