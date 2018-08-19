@@ -17,15 +17,19 @@
   apt:
     update_cache: yes
     upgrade: full
-  notify: restart droplet
+
+- name: restart droplet
+  # https://github.com/ansible/ansible/issues/10472
+  command: shutdown -r +1
+  ignore_errors: True
 
 - name: wait for droplet to finish restart
-  wait_for: 
+  local_action:
+     module: wait_for
      host: "{{ inventory_hostname }}"
      state: started
      port: 22
      delay: 60
      timeout: 3200
-  delegate_to: localhost
 
 
